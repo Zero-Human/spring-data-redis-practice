@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,18 +18,23 @@ public class RedisTemplateTests {
 
     @Test
     void redisTemplateString() {
-//        SET greeting "hello" EX 600      # 600초 TTL
-//        GET greeting                     # "hello"
-//        INCR login:count                 # 1 증가
+//        SET login:count "1" EX 600  # login:count 1 600초 TTL
+//        INCR login:count            # 1 증가
+//        GET login:count             # login:count 조회
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 
-        String key = "name";
-        valueOperations.set(key, "giraffe");
-        String value = valueOperations.get(key);
-        Assertions.assertEquals(value, "giraffe");
+        valueOperations.set("login:count", "1", Duration.ofMinutes(10));
+        valueOperations.increment("login:count");
+        String count = valueOperations.get("login:count");
+
+        Assertions.assertEquals(count, "2");
     }
     @Test
     void redisTemplateList() {
+//        RPUSH queue:tasks "task1" 오른쪽 queue:tasks에 "task1" 삽입
+//        RPUSH queue:tasks "task2" 오른쪽 queue:tasks에 "task2" 삽입
+//        LPOP queue:tasks 왼쪽 리스트 꺼내기
+//        LPOP queue:tasks 왼쪽 리스트 꺼내기
         ListOperations<String, String> listOperations = redisTemplate.opsForList();
 
         // 오른쪽 삽입
