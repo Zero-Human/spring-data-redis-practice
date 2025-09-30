@@ -13,17 +13,17 @@ public class SessionController {
 
     @PostMapping("/login/tti")
     public void CreateSessionTti(){
-        // 저장
+        // 세션 생성(tti)
     }
 
     @PostMapping("/login/ttl")
     public void CreateSessionTtl(){
-        // 저장
+        // 세션 생성(ttl)
     }
 
     @GetMapping("/session")
     public void getSession(){
-        // 저장
+        // 조회
     }
 
     @GetMapping("/logout")
