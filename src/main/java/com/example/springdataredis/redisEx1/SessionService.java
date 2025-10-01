@@ -47,7 +47,7 @@ public class SessionService {
         HashOperations<String,String, Object> hashOperations = redisTemplate.opsForHash();
         Map<String, Object> userInfo = hashOperations.entries(sessionId);
         // TTI 만료 확인
-        if(userInfo == null){
+        if(userInfo.isEmpty()){
             return null;
         }
         // TTL 만료 확인
