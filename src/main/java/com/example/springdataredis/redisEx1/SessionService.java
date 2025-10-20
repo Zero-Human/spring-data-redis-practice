@@ -53,6 +53,7 @@ public class SessionService {
         // TTL 만료 확인
         String loginTime = userInfo.get("loginTime").toString();
         if(System.currentTimeMillis() - Long.valueOf(loginTime) >  ONE_HOUR){
+            redisTemplate.delete(sessionId);
             return null;
         }
         // TTI 갱신
