@@ -23,9 +23,12 @@ public class RedisTemplateTests {
 //        GET login:count             # login:count 조회
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 
-        valueOperations.set("login:count", "1", Duration.ofMinutes(10));
+        valueOperations.set("login:count", "1", Duration.ofSeconds(10));
         valueOperations.increment("login:count");
         String count = valueOperations.get("login:count");
+        valueOperations.getAndExpire("user:1001",Duration.ofMinutes(30));
+        System.out.println(redisTemplate.getExpire("login:count"));
+
 
         Assertions.assertEquals(count, "2");
     }

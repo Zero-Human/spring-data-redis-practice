@@ -20,6 +20,7 @@ public class RedissonLockRepository {
         RLock lock = redissonClient.getLock(key);
         try {
             Boolean isLocked = lock.tryLock(10,1, TimeUnit.SECONDS);
+            System.out.println("lock" + key +"::"+isLocked);
             return isLocked;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -32,6 +33,7 @@ public class RedissonLockRepository {
         if(lock.isLocked()){
             lock.unlock();
         }
+        System.out.println("unlock" + key);
         return true;
 
     }

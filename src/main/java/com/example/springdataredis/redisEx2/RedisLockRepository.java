@@ -15,6 +15,7 @@ public class RedisLockRepository {
     }
 
     public Boolean lock(String key){
+        System.out.println("lock:"+key);
         return redisTemplate
                 .opsForValue()
                 .setIfAbsent(key,"lock");
@@ -22,6 +23,7 @@ public class RedisLockRepository {
     }
 
     public Boolean unlock(String key){
+        System.out.println("unlock:"+key);
         return redisTemplate
                 .delete(key);
     }
