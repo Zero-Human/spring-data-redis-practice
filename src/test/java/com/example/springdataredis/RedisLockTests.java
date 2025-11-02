@@ -74,11 +74,12 @@ public class RedisLockTests {
                 try {
                     try {
                         // 획득할 때까지 반복한다.
-                        while (!redisLockRepository.lock(key)) {
-                            Thread.sleep(20);
+                        Boolean isLocked = redisLockRepository.lock(key);
+                        if (Boolean.TRUE.equals(isLocked)) {
+                            // 수행할 로직
+                            increase();
+                            redisLockRepository.unlock(key);
                         }
-                        increase();
-                        redisLockRepository.unlock(key);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

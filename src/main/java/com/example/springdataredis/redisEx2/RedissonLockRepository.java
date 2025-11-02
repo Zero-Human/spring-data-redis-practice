@@ -19,6 +19,7 @@ public class RedissonLockRepository {
     public Boolean lock(String key){
         RLock lock = redissonClient.getLock(key);
         try {
+            // 락 획득을 시도한다(10초동안 시도를 할 예정이며 획득할 경우 1초안에 해제할 예정이다)
             Boolean isLocked = lock.tryLock(10,1, TimeUnit.SECONDS);
             System.out.println("lock" + key +"::"+isLocked);
             return isLocked;
@@ -35,6 +36,5 @@ public class RedissonLockRepository {
         }
         System.out.println("unlock" + key);
         return true;
-
     }
 }
